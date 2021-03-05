@@ -3,6 +3,7 @@ NODDI ANALYSIS
 ###################
 
 Connect to your CHEAHA account:
+
 - Go to https://rc.uab.edu/ and login
 - Click on *My interactive session* on top
 - Click on *HPC Desktop* (If no session was previously created)
