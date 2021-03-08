@@ -37,4 +37,27 @@ GETTING DOCKER IMAGE
 
 .. code:: bash
 
-  singularity build /home/rodolphe/Desktop/rodolphe/Toolbox/Singularity_images/NODDI_docker.simg docker://orchid666/myneurodocker:NODDI
+  singularity build /path/to/singularity/NODDI_docker.simg docker://orchid666/myneurodocker:NODDI
+
+- You are now ready to preprocess your images!!
+
+  *****************
+  COPY MRI IMAGES
+  *****************
+
+  - Create a folder for the NODDI analysis, for example : /Noddi_analysis/
+  - Within that folder, create a Raw_data folder: /Noddi_analysis/Raw_data/
+  - Put each subject T1 and DWI dicom folder in that Raw_data so you have:
+    - /Noddi_analysis/Raw_data/Subject_001/T1/
+    - /Noddi_analysis/Raw_data/Subject_001/dMRI/
+  - Note: Name of subject folder folders does not matter. T1 folder name needs to start with 'T1' and DWI folder name needs to start with 'dMRI'
+
+  *****************
+  PREPROCESSING
+  *****************
+
+  - You are now ready to preprocess your diffusion images
+  - Let's go to where you put the Singularity image:
+
+  .. code:: bash
+    cd /path/to/singularity/
