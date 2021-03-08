@@ -48,8 +48,10 @@ GETTING DOCKER IMAGE
 - Create a folder for the NODDI analysis, for example : /Noddi_analysis/
 - Within that folder, create a Raw_data folder: /Noddi_analysis/Raw_data/
 - Put each subject T1 and DWI dicom folder in that Raw_data so you have:
+
   - /Noddi_analysis/Raw_data/Subject_001/T1/
   - /Noddi_analysis/Raw_data/Subject_001/dMRI/
+
 - **Note: Name of subject folder folders does not matter. T1 folder name needs to start with 'T1' and DWI folder name needs to start with 'dMRI'**
 
   *****************
@@ -75,7 +77,20 @@ PREPROCESSING
 *****************
 
 - Now in order to preprocess one subject, you just need to give its name to the script you have downloaded earlier:
-.. code::bash
+
+.. code:: bash
   preproc_NODDI_Singularity.sh 'Subject_001'
 
 - **Note: Preprocessing can be extremely long (between 10h and 20h) so be patient!**
+
+*****************
+PREPROCESSING WITH PARALLEL
+*****************
+
+- Now you may want to process several Subject at once. Fortunately, the person who made the Docker image (me!) also put a nice tool to do so.
+- Example of how to do parallel processing with a find command:
+
+.. code:: bash
+  raw_dir=/data/Raw_data
+  TMPDIR=/tmp
+  find ${raw_dir} -name "CBDm8*" | parallel --eta bash preproc_NODDI_Singularity.sh {/}
