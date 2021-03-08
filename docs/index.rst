@@ -31,7 +31,7 @@ GETTING DOCKER IMAGE
 
 .. code:: bash
 
-  module load Singularity::
+  module load Singularity
 
 - Next let's convert the Docker image and put it in a folder:
 
