@@ -31,4 +31,10 @@ GETTING DOCKER IMAGE
 
 .. code:: bash
 
-  module load Singularity
+  module load Singularity::
+
+- Next let's convert the Docker image and put it in a folder:
+
+.. code:: bash
+
+  singularity build /home/rodolphe/Desktop/rodolphe/Toolbox/Singularity_images/NODDI_docker.simg docker://orchid666/myneurodocker:NODDI
