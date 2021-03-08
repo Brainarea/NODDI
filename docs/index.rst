@@ -62,11 +62,13 @@ GETTING DOCKER IMAGE
 - Let's go to where you put the Singularity image:
 
 .. code:: bash
+
   cd /path/to/singularity/
 
 - Now let's launch the Docker session and tell it where your stuff is:
 
 .. code:: bash
+
   singularity shell \
   --bind /Noddi_analysis:/data \
   --bind /path/to/scripts:/myscripts \
@@ -79,6 +81,7 @@ PREPROCESSING
 - Now in order to preprocess one subject, you just need to give its name to the script you have downloaded earlier:
 
 .. code:: bash
+
   preproc_NODDI_Singularity.sh 'Subject_001'
 
 - **Note: Preprocessing can be extremely long (between 10h and 20h) so be patient!**
@@ -91,6 +94,9 @@ PREPROCESSING WITH PARALLEL
 - Example of how to do parallel processing with a find command:
 
 .. code:: bash
+
   raw_dir=/data/Raw_data
   TMPDIR=/tmp
-  find ${raw_dir} -name "CBDm8*" | parallel --eta bash preproc_NODDI_Singularity.sh {/}
+  find ${raw_dir} -name "CBD*" | parallel --eta bash preproc_NODDI_Singularity.sh {/}
+
+- **Note: Be sure to have enough time on your CHEAHA session, preprocessing of multiple subjects in parallel can take days!!**
