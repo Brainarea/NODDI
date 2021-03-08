@@ -45,19 +45,37 @@ GETTING DOCKER IMAGE
   COPY MRI IMAGES
   *****************
 
-  - Create a folder for the NODDI analysis, for example : /Noddi_analysis/
-  - Within that folder, create a Raw_data folder: /Noddi_analysis/Raw_data/
-  - Put each subject T1 and DWI dicom folder in that Raw_data so you have:
-    - /Noddi_analysis/Raw_data/Subject_001/T1/
-    - /Noddi_analysis/Raw_data/Subject_001/dMRI/
-  - Note: Name of subject folder folders does not matter. T1 folder name needs to start with 'T1' and DWI folder name needs to start with 'dMRI'
+- Create a folder for the NODDI analysis, for example : /Noddi_analysis/
+- Within that folder, create a Raw_data folder: /Noddi_analysis/Raw_data/
+- Put each subject T1 and DWI dicom folder in that Raw_data so you have:
+  - /Noddi_analysis/Raw_data/Subject_001/T1/
+  - /Noddi_analysis/Raw_data/Subject_001/dMRI/
+- **Note: Name of subject folder folders does not matter. T1 folder name needs to start with 'T1' and DWI folder name needs to start with 'dMRI'**
 
   *****************
-  PREPROCESSING
+  LAUNCHING DOCKER SESSION
   *****************
 
-  - You are now ready to preprocess your diffusion images
-  - Let's go to where you put the Singularity image:
+- You are now ready to preprocess your diffusion images
+- Let's go to where you put the Singularity image:
 
-  .. code:: bash
-    cd /path/to/singularity/
+.. code:: bash
+  cd /path/to/singularity/
+
+- Now let's launch the Docker session and tell it where your stuff is:
+
+.. code:: bash
+  singularity shell \
+  --bind /Noddi_analysis:/data \
+  --bind /path/to/scripts:/myscripts \
+  NODDI_docker.simg
+
+*****************
+PREPROCESSING
+*****************
+
+- Now in order to preprocess one subject, you just need to give its name to the script you have downloaded earlier:
+.. code::bash
+  preproc_NODDI_Singularity.sh 'Subject_001'
+
+- **Note: Preprocessing can be extremely long (between 10h and 20h) so be patient!**
