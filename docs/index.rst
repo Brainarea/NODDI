@@ -90,7 +90,7 @@ PREPROCESSING
 PREPROCESSING WITH PARALLEL
 *****************
 
-- Now you may want to process several Subject at once. Fortunately, the person who made the Docker image (me!) also put a nice tool to do so.
+- Now you may want to process several Subjects at once. Fortunately, the person who made the Docker image (me!) also put a nice tool to do so.
 - Example of how to do parallel processing with a find command:
 
 .. code:: bash
