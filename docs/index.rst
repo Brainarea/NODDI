@@ -96,6 +96,7 @@ PREPROCESSING
 
 - **Note 1: If you get a Permission denied error, please do a chmod +x on preproc_NODDI_Singularity.sh script**
 - **Note 2: Preprocessing can be long so be patient!**
+- A NIFTI folder will be created within your Data folder containing all preprocessed files for each subject.
 
 *****************
 PREPROCESSING WITH PARALLEL
@@ -117,6 +118,8 @@ PREPROCESSING WITH PARALLEL
 NODDI ANALYSIS PART 2 : NOODI COMPUTATION
 ###################
 
+- **Note: Documentation for NODDI toolbox is available here: http://mig.cs.ucl.ac.uk/index.php?n=Tutorial.NODDImatlab**
+
 *****************
 GET THE TOOLBOX
 *****************
@@ -127,5 +130,19 @@ GET THE TOOLBOX
   - Download Nifti Matlab: https://github.com/NIFTI-Imaging/nifti_matlab
   - Download SPM12: https://www.fil.ion.ucl.ac.uk/spm/software/download/
 
--
-- **Note: Documentation for NODDI toolbox is available here: http://mig.cs.ucl.ac.uk/index.php?n=Tutorial.NODDImatlab**
+- Next you need a Matlab script available at : https://github.com/Brainarea/NODDI/tree/main/Matlab_files
+- Let's open Matlab on CHEAHA, open a new terminal and type:
+
+.. code:: bash
+
+  module load rc/matlab/R2020a
+
+- **Note: Other matlab version are available on CHEAHA, R2020a is working fine but feel free to change if needed**
+- Then type matlab in terminal to launch MATLAB
+- Open the matlab script you previously downloaded.
+- The part to change for your needs is highlighted at the beginning of the script but basically you need to change 3 things:
+  - Where all the toolboxes are
+  - Path to your data
+  - Search for subjects ID
+- Once everything is changed, just start the script and wait!!
+- A Noddi_files folder will be created containing all NODDI files for each subject !
