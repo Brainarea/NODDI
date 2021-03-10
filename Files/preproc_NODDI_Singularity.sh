@@ -5,12 +5,12 @@
 ## singularity build /home/rodolphe/Desktop/rodolphe/Toolbox/Singularity_images/NODDI_docker.simg docker://orchid666/myneurodocker:NODDI
 
 #########################################################
-:'
-singularity shell \
---bind /data/user/rodolphe/Data/MRST/NODDI:/data \
---bind /data/user/rodolphe/Scripts/Origin/Szaflarski\ lab/MRST/NODDI:/myscripts \
-NODDI_docker.simg
-'
+
+# singularity shell \
+# --bind /data/user/rodolphe/Data/MRST/NODDI:/data \
+# --bind /data/user/rodolphe/Scripts/Origin/Szaflarski\ lab/MRST/NODDI:/myscripts \
+# NODDI_docker.simg
+
 #########################################################
 
 ## Preprocessing of MRST DTI scans

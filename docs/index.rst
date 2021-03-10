@@ -1,6 +1,10 @@
 ###################
-NODDI ANALYSIS
+NODDI ANALYSIS PART 1: PREPROCESSING
 ###################
+
+*****************
+CHEAHA
+*****************
 
 Connect to your CHEAHA account:
 
@@ -78,13 +82,20 @@ GETTING DOCKER IMAGE
 PREPROCESSING
 *****************
 
+- Your scripts folder has been mounted to /myscript on the Singularity session so let's go there:
+
+.. code:: bash
+
+  cd /myscripts
+
 - Now in order to preprocess one subject, you just need to give its name to the script you have downloaded earlier:
 
 .. code:: bash
 
-  preproc_NODDI_Singularity.sh 'Subject_001'
+  ./preproc_NODDI_Singularity.sh 'Subject_001'
 
-- **Note: Preprocessing can be extremely long (between 10h and 20h) so be patient!**
+- **Note 1: If you get a Permission denied error, please do a chmod +x on preproc_NODDI_Singularity.sh script**
+- **Note 2: Preprocessing can be long so be patient!**
 
 *****************
 PREPROCESSING WITH PARALLEL
@@ -99,4 +110,22 @@ PREPROCESSING WITH PARALLEL
   TMPDIR=/tmp
   find ${raw_dir} -name "CBD*" | parallel --eta bash preproc_NODDI_Singularity.sh {/}
 
-- **Note: Be sure to have enough time on your CHEAHA session, preprocessing of multiple subjects in parallel can take days!!**
+- **Note: Be sure to have enough time on your CHEAHA session, preprocessing of multiple subjects in parallel can take hours!!**
+
+
+###################
+NODDI ANALYSIS PART 2 : NOODI COMPUTATION
+###################
+
+*****************
+GET THE TOOLBOX
+*****************
+
+- In order to compute NODDI files, you need the MATLAB Noddi toolbox, the Nifti Matlab toolbox and SPM12:
+
+  - Download NODDI toolbox: https://www.nitrc.org/projects/noddi_toolbox
+  - Download Nifti Matlab: https://github.com/NIFTI-Imaging/nifti_matlab
+  - Download SPM12: https://www.fil.ion.ucl.ac.uk/spm/software/download/
+
+-  
+- **Note: Documentation for NODDI toolbox is available here: http://mig.cs.ucl.ac.uk/index.php?n=Tutorial.NODDImatlab**
