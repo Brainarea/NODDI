@@ -78,6 +78,7 @@ GETTING DOCKER IMAGE
   --bind /path/to/scripts:/myscripts \
   NODDI_docker.simg
 
+- **Note: --bind command is like a mount. First is to tell where the data is, second where the scripts are.**
 *****************
 PREPROCESSING
 *****************
@@ -115,7 +116,7 @@ PREPROCESSING WITH PARALLEL
 
 
 ###################
-NODDI ANALYSIS PART 2 : NOODI COMPUTATION
+NODDI ANALYSIS PART 2 : NODDI COMPUTATION
 ###################
 
 - **Note: Documentation for NODDI toolbox is available here: http://mig.cs.ucl.ac.uk/index.php?n=Tutorial.NODDImatlab**
