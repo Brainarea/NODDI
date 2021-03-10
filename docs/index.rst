@@ -22,7 +22,7 @@ GETTING ESSENTIAL FILES
 *****************
 
 - All you need is the script file and a config file!
-- Both are available at: https://github.com/Brainarea/NODDI/tree/main/Files
+- Both are available at: https://github.com/Brainarea/NODDI/tree/main/Preproc_Files
 - Download both files and put them in a folder on Cheaha.
 
 *****************
@@ -127,5 +127,5 @@ GET THE TOOLBOX
   - Download Nifti Matlab: https://github.com/NIFTI-Imaging/nifti_matlab
   - Download SPM12: https://www.fil.ion.ucl.ac.uk/spm/software/download/
 
--  
+-
 - **Note: Documentation for NODDI toolbox is available here: http://mig.cs.ucl.ac.uk/index.php?n=Tutorial.NODDImatlab**
