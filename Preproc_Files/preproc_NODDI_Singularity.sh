@@ -83,6 +83,14 @@ fat_proc_imit2w_from_t1w  \
 -prefix ${basedir}/T1/${subject}_T2_ns_deob_acpc \
 -mask ${basedir}/T1/${subject}_T1_ns_deob_acpc_mask.nii
 
+## Co-register DWI with NEW T1 aligned with acpc
+
+3dAllineate -input ${basedir}/DWI/${subject}_DWI.nii \
+-base ${basedir}/T1/${subject}_T1_ns_deob_acpc.nii.gz \
+-prefix ${basedir}/DWI/${subject}_DWI_acpc.nii \
+-mast_dxyz 1.5 \
+-overwrite
+
 ## Unzip newly create T2 file
 gunzip ${basedir}/T1/${subject}_T2_ns_deob_acpc.nii.gz
 
@@ -94,7 +102,7 @@ cp $mypref $pref_dir/mypref.dmc
 
 ## Diff_prep import
 ImportNIFTI \
--i ${basedir}/DWI/${subject}_DWI.nii \
+-i ${basedir}/DWI/${subject}_DWI_acpc.nii \
 -b ${basedir}/DWI/newbval.txt \
 -v ${basedir}/DWI/newbvec.txt \
 -o ${basedir}/DWI/${subject}_Denoised \
@@ -133,24 +141,8 @@ DIFFPREP -i ${basedir}/DWI/${subject}_Denoised/${subject}_Denoised.list \
 -expr 'b/a' \
 -prefix ${basedir}/DWI/${subject}_Denoised/${subject}_Denoised_Final_abs_norm.nii
 
-#  #2 find b=o volume positions
-#  bvals=$(cat $mybval_file)
-#  for value in $bvals
-#  do
-#   if [[$value=5]]
-#   then
-#     echo $value
-#   fi
-# done
-#
-# 3dcalc -a ${basedir}/DWI/${subject}_Denoised/${subject}_Denoised_Final_abs.nii'[0,1]' \
-# -expr 'mean(a)' -prefix ${basedir}/DWI/${subject}_Denoised/${subject}_Denoised_Final_abs_mean-b0.nii
-#
-# -b ${basedir}/DWI/${subject}_Denoised/${subject}_Denoised_Final_abs.nii \
-# -expr 'b./mean(a)' \
-# -prefix ${basedir}/DWI/${subject}_Denoised/${subject}_Denoised_Final_abs_norm.nii
 
-## Convert BMTRIX to BVECS/BVALS
+## Convert BMTRIX to BVECS/BVALS to get modified BVECS !
 TORTOISEBmatrixToFSLBVecs ${basedir}/DWI/${subject}_Denoised/${subject}_Denoised_Final.bmtxt
 
 ###### REMARKS ###

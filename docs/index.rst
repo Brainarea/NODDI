@@ -29,7 +29,7 @@ GETTING ESSENTIAL FILES
 GETTING DOCKER IMAGE
 *****************
 
-- All the toolbox and packages analysis you need have been punt into a Docker image (yeah!)
+- All the toolbox and packages analysis you need have been put into a Docker image (yeah!)
 - Unfortunately, CHEAHA does not support Docker. However, we can use Singularity which is pretty much the same.
 - First let's load Singularity on Cheaha. Open a terminal and type:
 
@@ -37,7 +37,7 @@ GETTING DOCKER IMAGE
 
   module load Singularity
 
-- Next let's convert the Docker image and put it in a folder:
+- Next let's convert the Docker image and put it in a folder of your choice (change /path/to/ ):
 
 .. code:: bash
 

@@ -32,7 +32,7 @@ if  isempty(gcp('nocreate'))
 end
 
 % Loop on subjects
-for ii=22%length(list_subj)
+for ii=1:length(list_subj)
 
     %Convert the raw DWI volume into the required format with the function CreateROI:
     % First, copy files rom preprocessing
@@ -42,15 +42,17 @@ for ii=22%length(list_subj)
         mkdir(save_path)
 
         myDWI = strcat(list_subj(ii).folder,filesep,list_subj(ii).name,filesep,'DWI',filesep,list_subj(ii).name,'_Denoised',filesep,list_subj(ii).name,'_Denoised_Final_abs.nii');
-        %myMask = strcat(list_subj(ii).folder,filesep,list_subj(ii).name,filesep,'DWI',filesep,filesep,list_subj(ii).name,'_Denoised',filesep,list_subj(ii).name,'_Denoised_Final_mask.nii');
         myMask = strcat(list_subj(ii).folder,filesep,list_subj(ii).name,filesep,'T1',filesep,list_subj(ii).name,'_T1_ns_deob_acpc_mask_rs.nii');
+
         %myBval = strcat(list_subj(ii).folder,filesep,list_subj(ii).name,filesep,'DWI',filesep,list_subj(ii).name,'_Denoised',filesep,list_subj(ii).name,'_Denoised_Final.bvals');
         myBvec  = strcat(list_subj(ii).folder,filesep,list_subj(ii).name,filesep,'DWI',filesep,list_subj(ii).name,'_Denoised',filesep,list_subj(ii).name,'_Denoised_Final.bvecs');
         myBval = strcat(list_subj(ii).folder,filesep,list_subj(ii).name,filesep,'DWI/newbval.txt');
+
         mynewDWI = strcat(save_path,filesep,list_subj(ii).name,'_DWI.nii');
         mynewMask = strcat(save_path,filesep,list_subj(ii).name,'_mask.nii');
         mynewBvec = strcat(save_path,filesep,list_subj(ii).name,'.bvec');
         mynewBval = strcat(save_path,filesep,list_subj(ii).name,'.bval');
+
         copyfile(myDWI,mynewDWI);
         copyfile(myMask,mynewMask);
         copyfile(myBval,mynewBval);
