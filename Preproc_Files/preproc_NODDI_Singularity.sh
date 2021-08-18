@@ -71,6 +71,14 @@ fat_proc_axialize_anat \
 -extra_al_wtmask ${template_dir}/mni_icbm152_t1_tal_nlin_sym_09a_MSKD_ACPCE_wtell.nii.gz \
 -out_match_ref
 
+## Co-register DWI with NEW T1 aligned with acpc
+
+3dAllineate -input ${basedir}/DWI/${subject}_DWI.nii \
+-base ${basedir}/T1/${subject}_T1_ns_deob_acpc.nii.gz \
+-prefix ${basedir}/DWI/${subject}_DWI_acpc.nii \
+-mast_dxyz 1.5 \
+-overwrite
+
 ## Decompress result file from previous step
 gunzip ${basedir}/T1/${subject}_T1_ns_deob_acpc.nii.gz
 
@@ -83,13 +91,6 @@ fat_proc_imit2w_from_t1w  \
 -prefix ${basedir}/T1/${subject}_T2_ns_deob_acpc \
 -mask ${basedir}/T1/${subject}_T1_ns_deob_acpc_mask.nii
 
-## Co-register DWI with NEW T1 aligned with acpc
-
-3dAllineate -input ${basedir}/DWI/${subject}_DWI.nii \
--base ${basedir}/T1/${subject}_T1_ns_deob_acpc.nii.gz \
--prefix ${basedir}/DWI/${subject}_DWI_acpc.nii \
--mast_dxyz 1.5 \
--overwrite
 
 ## Unzip newly create T2 file
 gunzip ${basedir}/T1/${subject}_T2_ns_deob_acpc.nii.gz
