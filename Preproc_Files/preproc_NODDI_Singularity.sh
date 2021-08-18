@@ -19,6 +19,7 @@
 subject=$1
 basedir=/data/NIFTI/${subject}
 raw_dir=/data/Raw_data
+TMPDIR=/tmp
 
 
 ## Check if DIFF_PREP_WORK folder exist (Required to exist for DIFFPREP)
