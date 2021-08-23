@@ -150,3 +150,27 @@ TORTOISEBmatrixToFSLBVecs ${basedir}/DWI/${subject}_Denoised/${subject}_Denoised
 ###### REMARKS ###
 
 # 1- Upsampling has to be specified in script, dmc file will always set it up to off for some reason
+
+# Create new folder for DT files
+mkdir $SUBJ_DWI/DTI
+
+# Diffusion tensor model: Creates FA, MD... Also,  save tensor as a 4D file in this order: Dxx, Dxy, Dxz, Dyy, Dyz, Dzz
+dtifit --data=${basedir}/DWI/${subject}_Denoised/${subject}_Denoised_Final_abs_norm.nii \
+  --mask=${basedir}/T1/${subject}_T1_ns_deob_acpc_mask_rs.nii \
+  --bvecs=$SUBJ_DWI/${subject}_Denoised/${subject}_Denoised_Final.bvecs \
+  --bvals=$SUBJ_DWI/newbval.txt \
+  --out=$SUBJ_DWI/DTI/${subject}_DTI \
+  --save_tensor
+
+#SPlit the combined DT files and put DXX, DYY and DZZ in a separate ALPS folder
+fslsplit $SUBJ_DWI/DTI/${subject}_DTI_tensor $SUBJ_DWI/DTI/${subject}_DTI_DT
+mkdir $SUBJ_DWI/ALPS
+mv $SUBJ_DWI/DTI/${subject}_DTI_DT0000.nii.gz $SUBJ_DWI/ALPS/${subject}_DXX.nii.gz
+mv $SUBJ_DWI/DTI/${subject}_DTI_DT0003.nii.gz $SUBJ_DWI/ALPS/${subject}_DYY.nii.gz
+mv $SUBJ_DWI/DTI/${subject}_DTI_DT0005.nii.gz $SUBJ_DWI/ALPS/${subject}_DZZ.nii.gz
+rm $SUBJ_DWI/DTI/${subject}_DTI_DT0001.nii.gz
+rm $SUBJ_DWI/DTI/${subject}_DTI_DT0002.nii.gz
+rm $SUBJ_DWI/DTI/${subject}_DTI_DT0004.nii.gz
+gunzip $SUBJ_DWI/ALPS/${subject}_DXX.nii.gz
+gunzip $SUBJ_DWI/ALPS/${subject}_DYY.nii.gz
+gunzip $SUBJ_DWI/ALPS/${subject}_DZZ.nii.gz
