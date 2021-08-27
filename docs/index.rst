@@ -97,7 +97,7 @@ PREPROCESSING
 
 - **Note 1: If you get a Permission denied error, please do a chmod +x on preproc_NODDI_Singularity.sh script**
 - **Note 2: Preprocessing can be long so be patient!**
-- A NIFTI folder will be created within your Data folder containing all preprocessed files for each subject.
+- A 'Preprocessed' folder will be created within your Data folder containing all preprocessed files for each subject.
 
 *****************
 PREPROCESSING WITH PARALLEL
@@ -114,6 +114,82 @@ PREPROCESSING WITH PARALLEL
 
 - **Note: Be sure to have enough time on your CHEAHA session, preprocessing of multiple subjects in parallel can take hours!!**
 
+*****************
+PREPROCESSING WITH SLURM (CHEAHA)
+*****************
+
+- Another possibility to do parallel multi-processing is to use SLURM on Cheaha. In order to do that we need to create a job file. Let's start with a simple job for one subject:
+
+.. code:: bash
+
+  #!/bin/bash
+
+  #SBATCH --partition=short
+  #SBATCH --cpus-per-task=10
+  #SBATCH --mem-per-cpu=12000
+  #SBATCH --time=10:00:00
+
+
+  module load Singularity
+
+  cd /data/user/rodolphe/Toolbox/Singularity_images/
+
+  singularity exec \
+  --bind /data/user/rodolphe/Data/MRST/NODDI:/data \
+  --bind /data/user/rodolphe/Scripts/Origin/Szaflarski\ lab/MRST/NODDI/preprocessing:/myscripts \
+  NODDI_docker.simg bash /myscripts/preproc_NODDI_Singularity.sh 'MRST5012'
+
+- A job works exactly like creating an interactive session and running the preprocessing script through the Singularity container:
+  - With #SBATCH options we ask for a type of partition (short, long, medium,...) with a certain number of CPUs, memory per CPU and a duration time.
+  - Then the script will load Singularity module, go to directory where singularity image is then launch preprocessing script through singularity image ('singularity exec') with subject ID as argument
+
+- Now we can modify this job in order to process several subject at once:
+
+.. code:: bash
+
+  #!/bin/bash
+
+  #SBATCH --partition=short
+  #SBATCH --cpus-per-task=10
+  #SBATCH --mem-per-cpu=12000
+  #SBATCH --time=10:00:00
+  #SBATCH --array=0-4
+
+  module load Singularity
+  FILES=("CBDm7015_V1" "CBDm7015_V2" "CBDm7016_V1" "CBDm7017_V1" "CBDm7020_V2")
+  cd /data/user/rodolphe/Toolbox/Singularity_images/
+
+  srun singularity exec \
+  --bind /data/user/rodolphe/Data/MRST/NODDI:/data \
+  --bind /data/user/rodolphe/Scripts/Origin/Szaflarski\ lab/MRST/NODDI/preprocessing:/myscripts \
+  NODDI_docker.simg bash /myscripts/preproc_NODDI_Singularity.sh ${FILES[$SLURM_ARRAY_TASK_ID]}
+
+- The new #SBATCH array is telling the system how many jobs we want (It is a range , starting from zero!!). Then we create a list of subject ID (array named FILES). We use  ${FILES[$SLURM_ARRAY_TASK_ID]} in order to access each subject ID. This will create 5 jobs with $SLURM_ARRAY_TASK_ID having a different value in each one on them (from 0 to 4).
+
+
+- Finally, is it possible to search for subject IDs within a folder instead of manually writing all the ID:
+
+.. code:: bash
+
+  #!/bin/bash
+
+  #SBATCH --partition=short
+  #SBATCH --cpus-per-task=10
+  #SBATCH --mem-per-cpu=12000
+  #SBATCH --time=10:00:00
+  #SBATCH --array=0-4
+
+  module load Singularity
+
+  cd /data/user/rodolphe/Data/MRST/NODDI/Preprocessed/
+  readarray -t FILES < <(find . -maxdepth 1 -type d -name 'CBDm7*' -printf '%P\n')
+
+  cd /data/user/rodolphe/Toolbox/Singularity_images/
+
+  srun singularity exec \
+  --bind /data/user/rodolphe/Data/MRST/NODDI:/data \
+  --bind /data/user/rodolphe/Scripts/Origin/Szaflarski\ lab/MRST/NODDI/preprocessing:/myscripts \
+  NODDI_docker.simg bash /myscripts/preproc_NODDI_Singularity.sh ${FILES[$SLURM_ARRAY_TASK_ID]}
 
 ###################
 NODDI ANALYSIS PART 2 : NODDI COMPUTATION
