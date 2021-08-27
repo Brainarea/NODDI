@@ -117,6 +117,7 @@ PREPROCESSING WITH PARALLEL
 *****************
 PREPROCESSING WITH SLURM (CHEAHA)
 *****************
+# Create JOB file
 
 - Another possibility to do parallel multi-processing is to use SLURM on Cheaha. In order to do that we need to create a job file. Let's start with a simple job for one subject:
 
@@ -140,6 +141,7 @@ PREPROCESSING WITH SLURM (CHEAHA)
   NODDI_docker.simg bash /myscripts/preproc_NODDI_Singularity.sh 'MRST5012'
 
 - A job works exactly like creating an interactive session and running the preprocessing script through the Singularity container:
+
   - With #SBATCH options we ask for a type of partition (short, long, medium,...) with a certain number of CPUs, memory per CPU and a duration time.
   - Then the script will load Singularity module, go to directory where singularity image is then launch preprocessing script through singularity image ('singularity exec') with subject ID as argument
 
@@ -191,6 +193,20 @@ PREPROCESSING WITH SLURM (CHEAHA)
   --bind /data/user/rodolphe/Scripts/Origin/Szaflarski\ lab/MRST/NODDI/preprocessing:/myscripts \
   NODDI_docker.simg bash /myscripts/preproc_NODDI_Singularity.sh ${FILES[$SLURM_ARRAY_TASK_ID]}
 
+# Use Job files
+
+- Now that you have your job save as a file let's use it. Go to rc.uab.edu then click on Jobs>Job composer.
+- Create a new job by clicking on 'New job' then 'From Specified path'
+- Fill as follow:
+
+  - Path to source: Path to the folder where your script is
+  - Name: Give a name to your job (' My Noddi job' for exemple.)
+  - Script name: Put the name of your script.
+  - Click save
+
+- Your Job should be in the list with the code displayed on the bottom right.
+- Click Submit to start your job, it will first be 'Queued' waiting for resource allocation, then it will be "Running".
+
 ###################
 NODDI ANALYSIS PART 2 : NODDI COMPUTATION
 ###################
@@ -208,6 +224,10 @@ GET THE TOOLBOX
   - Download SPM12: https://www.fil.ion.ucl.ac.uk/spm/software/download/
 
 - Next you need a Matlab script available at : https://github.com/Brainarea/NODDI/tree/main/Matlab_files
+
+*****************
+RUN THE SCRIPT
+*****************
 - Let's open Matlab on CHEAHA, open a new terminal and type:
 
 .. code:: bash
@@ -223,3 +243,30 @@ GET THE TOOLBOX
   - Search for subjects ID
 - Once everything is changed, just start the script and wait!!
 - A Noddi_files folder will be created containing all NODDI files for each subject !
+
+*****************
+RUN THE SCRIPT ON SLURM (CHEAHA)
+*****************
+
+- See SLURM section on preprocessing to learn about Job creation and use.
+- Here we use a single-subject version of the Matlab script.
+- WARNING! The Noddi toolbox script needs to be modified for this method to work: 
+
+.. code:: bash
+
+  #!/bin/bash
+
+  #SBATCH --partition=medium
+  #SBATCH --cpus-per-task=20
+  #SBATCH --mem-per-cpu=12000
+  #SBATCH --time=15:00:00
+  #SBATCH --array=0-41
+
+  module load rc/matlab/R2020a
+  cd /data/user/rodolphe/Data/MRST/NODDI/Preprocessed/
+  readarray -t FILES < <(find . -maxdepth 1 -type d -name 'CBDm7*' -printf '%P\n')
+
+  cd /data/user/rodolphe/Scripts/Origin/Szaflarski\ lab/MRST/NODDI/Create_noddi_files/
+
+  srun matlab -nodisplay -nodesktop -r \
+  "MRST_NODDI_single_subject_SLURM('${FILES[$SLURM_ARRAY_TASK_ID]}',20); quit;"
