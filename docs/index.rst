@@ -250,7 +250,12 @@ RUN THE SCRIPT ON SLURM (CHEAHA)
 
 - See SLURM section on preprocessing to learn about Job creation and use.
 - Here we use a single-subject version of the Matlab script.
-- WARNING! The Noddi toolbox script needs to be modified for this method to work: 
+- WARNING! The Noddi toolbox script needs to be modified for this method to work
+- Two files are therefore needed to make this work:
+
+  - MRST_NODDI_single_subject_SLURM.m: used in job's script below (modified matlab script used for signle subject)
+  - batch_fitting.m: Modified file from Noddi toolbox. Replace one existing in toolbox folder with that one.
+  - Both files are available in MAtlab_files_SLURM folder of the github repository ( https://github.com/Brainarea/NODDI/)
 
 .. code:: bash
 
