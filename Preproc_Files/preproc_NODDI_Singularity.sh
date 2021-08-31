@@ -17,7 +17,7 @@
 
 ## Base variables. Change if needed
 subject=$1
-basedir=/data/NIFTI/${subject}
+basedir=/data/Preprocessed/${subject}
 raw_dir=/data/Raw_data
 TMPDIR=/tmp
 
